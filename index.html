@@ -191,7 +191,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
         const urlInput = document.getElementById('urlInput');
         const generateBtn = document.getElementById('generateBtn');
@@ -202,6 +202,12 @@
         const errorDiv = document.getElementById('error');
 
         let currentQRDataURL = null;
+
+        // Check if QRCode library loaded successfully
+        if (typeof QRCode === 'undefined') {
+            console.error('QRCode library failed to load');
+            showError('QR Code library failed to load. Please refresh the page.');
+        }
 
         function isValidURL(string) {
             try {
@@ -232,6 +238,11 @@
 
             if (!isValidURL(url)) {
                 showError('Please enter a valid URL (e.g., https://example.com)');
+                return;
+            }
+
+            if (typeof QRCode === 'undefined') {
+                showError('QR Code library not loaded. Please refresh the page.');
                 return;
             }
 
